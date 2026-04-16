@@ -1,0 +1,143 @@
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&family=Manrope:wght@200..800&family=Inter:wght@100..900&family=JetBrains+Mono:wght@400;700&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-display: "Space Grotesk", sans-serif;
+  --font-sans: "Manrope", sans-serif;
+  --font-label: "Inter", sans-serif;
+  --font-mono: "JetBrains Mono", monospace;
+  
+  --color-surface: #0b1326;
+  --color-surface-container-lowest: #05080f;
+  --color-surface-container-low: #0f1a30;
+  --color-surface-container: #15233d;
+  --color-surface-container-high: #1c2e4f;
+  --color-surface-container-highest: #253b63;
+
+  --color-primary: #00f0ff;
+  --color-primary-container: #00d1de;
+  --color-on-primary: #0b1326;
+  
+  --color-on-surface: #f8f9fa;
+  --color-on-surface-variant: #bbcbb8;
+  --color-outline-variant: rgba(187, 203, 184, 0.15);
+
+  --color-hud-green: #26D967;
+  --color-hud-purple: #6726D9;
+  --color-hud-orange: #D96726;
+
+  --color-reporting: #43eb77;
+  --color-delayed: #ffd19d;
+  --color-anomaly: #ffb4ab;
+
+  --animate-triadic: triadic 20s ease infinite;
+  --animate-color-cycle: color-cycle 6s linear infinite;
+  --animate-scan: scan 10s linear infinite;
+  --animate-pulse-glow: pulse-glow 2s infinite;
+
+  @keyframes triadic {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+
+  @keyframes color-cycle {
+    0%, 100% { background-color: #26D967; }
+    33% { background-color: #6726D9; }
+    66% { background-color: #D96726; }
+  }
+
+  @keyframes scan {
+    0% { transform: translateY(0); }
+    100% { transform: translateY(100%); }
+  }
+
+  @keyframes pulse-glow {
+    0% { opacity: 1; transform: scale(1); filter: drop-shadow(0 0 0px var(--color-primary)); }
+    50% { opacity: 0.8; transform: scale(1.1); filter: drop-shadow(0 0 8px var(--color-primary)); }
+    100% { opacity: 1; transform: scale(1); filter: drop-shadow(0 0 0px var(--color-primary)); }
+  }
+}
+
+@layer base {
+  body {
+    @apply bg-surface text-on-surface font-sans overflow-x-hidden m-0 p-0 selection:bg-primary selection:text-surface;
+    background: 
+      url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Ctext x='10' y='20' font-family='monospace' font-size='12' fill='%23ffffff' opacity='0.05'%3E%2B%3C/text%3E%3Ctext x='50' y='50' font-family='monospace' font-size='10' fill='%23ffffff' opacity='0.03'%3E*%3C/text%3E%3Ctext x='80' y='90' font-family='monospace' font-size='14' fill='%23ffffff' opacity='0.06'%3E~%3C/text%3E%3C/svg%3E"),
+      linear-gradient(-45deg, #26D967, #6726D9, #D96726);
+    background-size: 150px 150px, 400% 400%;
+    animation: triadic 20s ease infinite;
+    background-attachment: fixed;
+    background-blend-mode: overlay;
+  }
+
+  h1, h2, h3, h4, .display-text {
+    @apply font-display tracking-tight;
+  }
+
+  .tabular-nums {
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+@layer components {
+  .hud-card {
+    @apply bg-black/40 backdrop-blur-xl border border-outline-variant transition-all duration-300 rounded-lg;
+  }
+  
+  .hud-card:hover {
+    @apply border-primary/20 bg-black/50;
+    box-shadow: 0 0 40px rgba(0, 240, 255, 0.08);
+  }
+
+  .terminal-header {
+    @apply flex items-center gap-4 mb-4;
+  }
+
+  .terminal-header::after {
+    content: "";
+    @apply h-[1px] bg-outline-variant flex-1;
+  }
+
+  .btn-primary {
+    @apply bg-gradient-to-r from-primary to-primary-container text-on-primary font-mono font-bold py-2 px-6 rounded-sm uppercase text-[10px] tracking-widest transition-all hover:scale-[1.02] active:scale-[0.98] shadow-lg shadow-primary/10;
+  }
+
+  .btn-secondary {
+    @apply bg-transparent backdrop-blur-md border border-outline-variant text-primary font-mono font-bold py-2 px-6 rounded-sm uppercase text-[10px] tracking-widest transition-all hover:bg-primary/5 hover:border-primary/40;
+  }
+}
+
+.scanline {
+  @apply fixed inset-0 pointer-events-none z-[100] opacity-[0.02];
+  background: linear-gradient(
+    to bottom,
+    transparent 50%,
+    rgba(0, 240, 255, 0.2) 50%
+  );
+  background-size: 100% 4px;
+  animation: scan 10s linear infinite;
+}
+
+.glow-accent {
+  text-shadow: 0 0 12px rgba(0, 240, 255, 0.6);
+}
+
+/* Pneumatic Dimple States */
+.dimple {
+  @apply rounded-full transition-all duration-700 ease-in-out;
+  background: rgba(255, 255, 255, 0.02);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.dimple.deflated {
+  box-shadow: inset 4px 4px 12px rgba(0,0,0,0.6), inset -2px -2px 6px rgba(255,255,255,0.05);
+  transform: scale(0.98);
+}
+
+.dimple.inflated {
+  @apply animate-color-cycle;
+  box-shadow: 8px 8px 16px rgba(0,0,0,0.4), -4px -4px 12px rgba(255,255,255,0.1), inset 0 0 20px var(--color-reporting);
+  transform: scale(1.05);
+}
