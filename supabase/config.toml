@@ -1,0 +1,4 @@
+project_id = "whtszrgrkyqniyciblrh"
+
+[functions.visitor-location]
+verify_jwt = false
