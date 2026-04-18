@@ -300,3 +300,5 @@ export default function DiasporaGlobe({ theme }: { theme: any }) {
     </div>
   );
 }
+
+export { DiasporaGlobe };

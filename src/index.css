@@ -1,30 +1,28 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Manrope:wght@300;400;500;600;700&display=swap');
-@import "tailwindcss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-@theme {
-  --font-headline: "Inter", sans-serif;
-  --font-body: "Manrope", sans-serif;
-  --font-label: "Inter", sans-serif;
-  --font-mono: "JetBrains Mono", monospace;
-  
-  --color-background: #050505;
-  --color-surface: #0F0F0F;
-  --color-primary: #26D967;
-  --color-secondary: #6726D9;
-  --color-accent: #D96726;
-  --color-border-subtle: rgba(255, 255, 255, 0.08);
-  --color-on-surface: #F2F2F2;
-  --color-on-surface-variant: #A0A0A0;
-
-  --color-reporting: #26D967;
-  --color-delayed: #D96726;
-  --color-anomaly: #ffb4ab;
-  --color-outline-variant: rgba(255, 255, 255, 0.08);
-
-  --animate-triadic: triadic 20s ease infinite;
-  --animate-color-cycle: color-cycle 6s linear infinite;
-  --animate-scan: scan 10s linear infinite;
-  --animate-pulse-glow: pulse-glow 2s infinite;
+@layer base {
+  :root {
+    --font-headline: "Inter", sans-serif;
+    --font-body: "Manrope", sans-serif;
+    --font-label: "Inter", sans-serif;
+    --font-mono: "JetBrains Mono", monospace;
+    
+    --color-background: #050505;
+    --color-surface: #0F0F0F;
+    --color-primary: #26D967;
+    --color-secondary: #6726D9;
+    --color-accent: #D96726;
+    --color-border-subtle: rgba(255, 255, 255, 0.08);
+    --color-on-surface: #F2F2F2;
+    --color-on-surface-variant: #A0A0A0;
+    --color-reporting: #26D967;
+    --color-delayed: #D96726;
+    --color-anomaly: #ffb4ab;
+    --color-outline-variant: rgba(255, 255, 255, 0.08);
+  }
 
   @keyframes triadic {
     0% { background-position: 0% 50%; }
@@ -48,28 +46,37 @@
     50% { opacity: 0.8; transform: scale(1.1); filter: drop-shadow(0 0 8px var(--color-primary)); }
     100% { opacity: 1; transform: scale(1); filter: drop-shadow(0 0 0px var(--color-primary)); }
   }
-}
 
-@layer base {
   body {
-    @apply bg-background text-on-surface font-body overflow-x-hidden m-0 p-0 selection:bg-primary selection:text-black antialiased;
+    font-family: var(--font-body);
+    color: var(--color-on-surface);
+    background-color: var(--color-background);
+    overflow-x: hidden;
+    margin: 0;
+    padding: 0;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     background: 
       radial-gradient(circle at 0% 0%, rgba(38, 217, 103, 0.05) 0%, transparent 40%),
       radial-gradient(circle at 100% 0%, rgba(103, 38, 217, 0.05) 0%, transparent 40%),
       radial-gradient(circle at 50% 100%, rgba(217, 103, 38, 0.05) 0%, transparent 40%),
-      #050505;
+      var(--color-background);
     background-attachment: fixed;
     min-height: 100vh;
   }
 
   h1, h2, h3, h4, .text-huge {
-    @apply font-headline font-bold tracking-[-0.02em];
+    font-family: var(--font-headline);
+    font-weight: 700;
+    letter-spacing: -0.02em;
   }
 
   .text-micro {
-    @apply text-[10px] uppercase font-bold tracking-[0.2em] text-on-surface-variant;
+    font-size: 10px;
+    text-transform: uppercase;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    color: var(--color-on-surface-variant);
   }
 
   .tabular-nums {
@@ -110,12 +117,17 @@
   }
 
   .terminal-header {
-    @apply flex items-center gap-4 mb-4;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
   }
 
   .terminal-header::after {
     content: "";
-    @apply h-[1px] bg-border-subtle flex-1;
+    height: 1px;
+    background-color: var(--color-border-subtle);
+    flex: 1;
   }
 
   .btn-primary {
@@ -180,7 +192,11 @@
 }
 
 .scanline {
-  @apply fixed inset-0 pointer-events-none z-[100] opacity-[0.02];
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 100;
+  opacity: 0.02;
   background: linear-gradient(
     to bottom,
     transparent 50%,
