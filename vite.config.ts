@@ -5,6 +5,7 @@ import { componentTagger } from "lovable-tagger";
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => ({
+  base: "/crimson1800/",
   server: {
     host: "0.0.0.0",
     port: 3000,
